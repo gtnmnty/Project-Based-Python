@@ -12,7 +12,7 @@ import time
 # test = list(zip(a, b))
 # print(test)
 
-def add_alternatively(a, b):
+def add_by_index(a, b):
     if check_list(a, b) == 0: return
 
     start = time.perf_counter()
@@ -138,7 +138,7 @@ def main():
 
         if choice == 1:
             a, b = enter_input()
-            add_alternatively(a, b)
+            add_by_index(a, b)
 
         elif choice == 2:
             # Scaling usually only requires
@@ -156,7 +156,7 @@ def main():
             large_list_b = list(range(100000))
 
             print("--- Running Benchmarks ---")
-            add_alternatively(large_list_a, large_list_b)
+            add_by_index(large_list_a, large_list_b)
             scale(large_list_a, large_list_b)
             dot_product(large_list_a, large_list_b)
 
