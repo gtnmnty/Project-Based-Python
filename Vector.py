@@ -13,7 +13,6 @@ import time
 # print(test)
 
 def add_alternatively(a, b):
-    # Checks if either a or b is empty or both
     if check_list(a, b) == 0: return
 
     start = time.perf_counter()
@@ -49,14 +48,13 @@ def scale(a, b):
             factor = int(input("Enter the value of a factor: "))
             if factor != 0: break
 
-    # ——— 1. Benchmark Comprehension ———
     start = time.perf_counter()
     scaled_a = [x * factor for x in a]
     scaled_b = [x * factor for x in b]
     end = time.perf_counter()
     time_comp = end - start
 
-    # ——— 2. Benchmark For Loop ———
+#   ———————————— for loop ver ————————————
     start = time.perf_counter()
     c = []
     length = min(len(a), len(b))
@@ -83,13 +81,12 @@ def scale(a, b):
 def dot_product(a, b):
     if check_list(a, b) == 0: return
 
-    # --- 1. Benchmark Generator Expression ---
     start = time.perf_counter()
     sum_of_prod = sum(x * y for x, y in zip(a, b))
     end = time.perf_counter()
     time_gen = end - start
 
-    # --- 2. Benchmark For Loop ---
+#   ———————————— for loop ver ————————————
     start = time.perf_counter()
     product = []
     length = min(len(a), len(b))
