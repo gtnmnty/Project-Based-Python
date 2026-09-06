@@ -70,4 +70,4 @@ A project isn't "done" when it runs. For each major project I should be able to:
 
 ---
 
-*Status: in progress. Last updated with initial commit.*
+*Status: Finished Project #8: Manual CSV.*
