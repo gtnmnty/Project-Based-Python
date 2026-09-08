@@ -1,3 +1,4 @@
+from json import JSONDecodeError
 from tabulate import tabulate
 import json
 
@@ -33,23 +34,22 @@ def apply_filter(dataset, config):
 
 def load_dataset():
     try:
-        with open("utils/json/books.json", "r") as file:
+        with open("utils/json/books.json", "r", encoding="utf-8") as file:
             dataset = json.load(file)
             if dataset is not None:
                 return dataset
-    except FileNotFoundError:
-        print("Can't find the file to begin with")
-
-    return {}
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"Error: Invalid JSON in 'config.json' - {e}")
+        return {}
 
 def load_config():
     try:
-        with open("utils/json/config.json", "r") as config:
+        with open("utils/json/config.json", "r", encoding="utf-8") as config:
             j_son = json.load(config)
             config_dict = dict(j_son)
             return config_dict
-    except FileNotFoundError:
-        print("config.json can not be found")
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print("Error: Config.json is missing or corrupted")
         return {}
 
 
