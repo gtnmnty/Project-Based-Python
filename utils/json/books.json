@@ -1,0 +1,56 @@
+[
+    {
+        "title": "The Hobbit",
+        "author": "J.R.R. Tolkien",
+        "year": 1937,
+        "genre": "Fantasy",
+        "rating": 4.7,
+        "pages": 310,
+        "sold_copies": 100000000
+    },
+    {
+        "title": "The Fellowship of the Ring",
+        "author": "J.R.R. Tolkien",
+        "year": 1954,
+        "genre": "Fantasy",
+        "rating": 4.8,
+        "pages": 423,
+        "sold_copies": 150000000
+    },
+    {
+        "title": "Dune",
+        "author": "Frank Herbert",
+        "year": 1965,
+        "genre": "Sci-Fi",
+        "rating": 4.6,
+        "pages": 412,
+        "sold_copies": 20000000
+    },
+    {
+        "title": "Mistborn",
+        "author": "Brandon Sanderson",
+        "year": 2006,
+        "genre": "Fantasy",
+        "rating": 4.5,
+        "pages": 541,
+        "sold_copies": 5000000
+    },
+    {
+        "title": "Foundation",
+        "author": "Isaac Asimov",
+        "year": 1951,
+        "genre": "Sci-Fi",
+        "rating": 4.4,
+        "pages": 255,
+        "sold_copies": 15000000
+    },
+    {
+        "title": "The Name of the Wind",
+        "author": "Patrick Rothfuss",
+        "year": 2007,
+        "genre": "Fantasy",
+        "rating": 4.6,
+        "pages": 662,
+        "sold_copies": 10000000
+    }
+]
