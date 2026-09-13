@@ -16,13 +16,18 @@ def add_by_index(a, b):
     if check_list(a, b) == 0: return
 
     start = time.perf_counter()
-    new_list = [a + b for a, b in zip(a, b)]
+    new_list = [x + y for x, y in zip(a, b)]
     end = time.perf_counter()
     zip_speed = end - start
 
-#   ———————————— for loop ver ————————————
+    #   ———————————— for loop ver ————————————
     c = []
-    length = max(len(a), len(b))
+    # Using max(len(a), len(b)) here means that if the two
+    # lists have different lengths, a[i] or b[i] will eventually go out of
+    # range and raise an IndexError. zip() (used above) silently stops at
+    # the shorter list, so to keep both versions consistent/safe we use
+    # min() instead.
+    length = min(len(a), len(b))
     start = time.perf_counter()
     for i in range(length):
         c.append(a[i] + b[i])
@@ -45,7 +50,11 @@ def scale(a, b):
     if len(a) > 10 and len(b) > 10: factor = 2
     else:
         while True:
-            factor = int(input("Enter the value of a factor: "))
+            try:
+                factor = int(input("Enter the value of a factor: "))
+            except ValueError:
+                print("Please enter a valid integer.")
+                continue
             if factor != 0: break
 
     start = time.perf_counter()
@@ -54,7 +63,7 @@ def scale(a, b):
     end = time.perf_counter()
     time_comp = end - start
 
-#   ———————————— for loop ver ————————————
+    #   ———————————— for loop ver ————————————
     start = time.perf_counter()
     c = []
     length = min(len(a), len(b))
@@ -86,7 +95,7 @@ def dot_product(a, b):
     end = time.perf_counter()
     time_gen = end - start
 
-#   ———————————— for loop ver ————————————
+    #   ———————————— for loop ver ————————————
     start = time.perf_counter()
     product = []
     length = min(len(a), len(b))
@@ -115,14 +124,17 @@ def check_list(a, b):
 def enter_input():
     # 1. Asks for a raw string input
     # 2. Split the spaces AND convert each
-    #    piece to an int all at once
-    raw_a = input("\nEnter the values for list A: ")
-    list_a = [int(x) for x in raw_a.split()]
+    #          piece to an int all at once
+    while True:
+        try:
+            raw_a = input("\nEnter the values for list A: ")
+            list_a = [int(x) for x in raw_a.split()]
 
-    raw_b = input("Enter the values for list B: ")
-    list_b = [int(x) for x in raw_b.split()]
-
-    return list_a, list_b
+            raw_b = input("Enter the values for list B: ")
+            list_b = [int(x) for x in raw_b.split()]
+            return list_a, list_b
+        except ValueError:
+            print("Please enter only whole numbers separated by spaces.")
 
 
 def main():
@@ -134,7 +146,11 @@ def main():
     print("5. Exit")
 
     while True:
-        choice = int(input("\nEnter your choice: "))
+        try:
+            choice = int(input("\nEnter your choice: "))
+        except ValueError:
+            print("Invalid choice. Please try again.\n")
+            continue
 
         if choice == 1:
             a, b = enter_input()
@@ -167,6 +183,5 @@ def main():
             print("Invalid choice. Please try again.\n")
 
 
-# This runs the main function when you start the script
 if __name__ == "__main__":
     main()

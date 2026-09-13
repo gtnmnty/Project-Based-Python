@@ -1,4 +1,3 @@
-
 # This function runs to count every word in out input
 # passed down. We can use Counter from collections, but
 # as a practice, we won't.
@@ -10,7 +9,6 @@
 def count_words(text):
     counts = {}
     words = text.lower().split()
-
 
     # Iterates to the words list one by one with the values
     for word in words:
@@ -32,25 +30,27 @@ def top_n(texts):
     print("3. Exit")
 
     is_reverse = True
-    try:
-        while True:
-            choice = int( input("What is your choice: ") )
-            if choice == 3:
-                print("Bye bye")
-                return
-            elif choice == 2:
-                is_reverse = True
-                break
-            elif choice == 1:
-                is_reverse = False
-                break
-            else:
-                print("Invalid number. Please pick 1, 2, or 3.")
 
-    except ValueError:
-        print("Invalid input. Please enter a valid number.")
+    while True:
+        try:
+            choice = int(input("What is your choice: "))
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+            continue
 
-    ranked_list = sorted(words_list.items(), key= lambda item: item[1], reverse=is_reverse)
+        if choice == 3:
+            print("Bye bye")
+            return
+        elif choice == 2:
+            is_reverse = True
+            break
+        elif choice == 1:
+            is_reverse = False
+            break
+        else:
+            print("Invalid number. Please pick 1, 2, or 3.")
+
+    ranked_list = sorted(words_list.items(), key=lambda item: item[1], reverse=is_reverse)
 
     # enumerate returns an object where
     # the starts serve as a key for each value

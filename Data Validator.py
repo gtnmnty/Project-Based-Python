@@ -1,26 +1,36 @@
 def validate_name(full_name):
     if full_name is None: return False, "Full Name is blank or missing"
 
+    # Check if input is the correct data type (string)
     if not isinstance(full_name, str):
         return False, "Type mismatch: Name must be a text string"
 
+    # Iterate through every character to ensure none are digits
+    # any() returns True if the generator finds *at least one* digit
     if any(char.isdigit() for char in full_name):
         return False, f"Invalid entry: Name '{full_name}' contains numbers."
 
     return True, None
 
+
 def validate_age(age, age_schema):
     if age is None:
         return False, "Age is blank or missing"
 
+    # Attempt conversion to int to handle string inputs like "28"
+    # Catches ValueError (non-numeric string) or TypeError (e.g., passing a float like 25.5)
     try:
         age = int(age)
     except (ValueError, TypeError):
         return False, f"Type mismatch: 'age' value '{age}' cannot convert to Integer."
 
+    # Retrieve min/max limits from the schema; .get() returns None if key is missing
     min_age = age_schema.get("min")
     max_age = age_schema.get("max")
 
+    # Combine multiple conditions for min/max ranges
+    # Short-circuit evaluation: if min_age is None, the first part is True; same for max
+    # Ensures age is within range ONLY if the bounds are defined
     if not ((min_age is None or age >= min_age) and (max_age is None or age <= max_age)):
         return False, f"Out of range: age ({age}) must be between {min_age} and {max_age}."
     else:
@@ -38,6 +48,7 @@ def validate_credit(credit, credit_schema):
     min_credit = credit_schema.get("min")
     max_credit = credit_schema.get("max")
 
+    # Checks range boundaries using short-circuit evaluation
     if (min_credit is None or credit >= min_credit) and (max_credit is None or credit <= max_credit):
         return True, None
     else:
@@ -47,12 +58,16 @@ def validate_credit(credit, credit_schema):
 def validate_gender(gender, gender_schema):
     if gender is None: return False, "gender is blank or missing"
 
+    # Check type first before processing
     if not isinstance(gender, str):
         return False, f"Type mismatch: 'gender' must be a text string, got {type(gender).__name__}."
 
     gender = gender.upper()
 
+    # Retrieve the allowed list from schema
     allowed_options = gender_schema.get("allowed")
+
+    # Check if the normalized gender exists in the allowed list
     if gender not in allowed_options:
         return False, f"Invalid category: 'gender' value '{gender}' must be one of {allowed_options}."
 
@@ -80,9 +95,10 @@ def validate_income(income, income_schema):
 def validate_record(record, validator_schema):
     errors = []
 
-    for field in validator_schema.keys():
-        if field not in record:
-            errors.append(f"Missing field: '{field}' is required.")
+    # Iterate through schema keys to ensure no required fields are missing in record
+    # list comprehension creates a list of error strings for any missing key
+    missing_fields = [f"Missing field: '{field}' is required." for field in validator_schema.keys() if field not in record]
+    errors.extend(missing_fields)
 
     # Validates Full Name
     is_letters_only, name_error = validate_name(record.get("full_name"))
@@ -108,6 +124,8 @@ def validate_record(record, validator_schema):
     is_gender_valid, gender_errors = validate_gender(record.get("gender"), gender_rules)
     if not is_gender_valid: errors.append(gender_errors)
 
+    # Determine final validity by checking if the errors list is empty
+    # len(errors) == 0 evaluates to True if no errors were appended
     is_valid = len(errors) == 0
 
     return is_valid, errors
@@ -117,14 +135,17 @@ def validate_dataset(dataset, global_schema):
     passed_list = {}
     failed_list = {}
 
+    # Iterate over the dataset dictionary (key=person_id, value=record)
+    # .items() returns a view object with key-value pairs
     for person, record in dataset.items():
         is_valid, error_logs = validate_record(record, global_schema)
 
+        # Complex logic: Append to passed or failed dictionary based on validation result
         if is_valid:
             passed_list[person] = record
         else:
             failed_list[person] = {
-                "record" : record,
+                "record": record,
                 "errors": error_logs
             }
 
@@ -180,12 +201,12 @@ if __name__ == "__main__":
     for person_id, failure_payload in failed.items():
         print(f"❌ {person_id}:")
 
-        # 1. Unpack the original data record using the exact key you defined
+        # Unpack the original data record using the exact key you defined
         print(f"   Record: {failure_payload['record']}")
 
         print(f"   Errors Found:")
 
-        # 2. Directly loop through the errors you already computed!
+        # Directly loop through the errors you already computed!
         # No more re-running validate_record or ghost errors.
         for single_error in failure_payload["errors"]:
             print(f"     - {single_error}")

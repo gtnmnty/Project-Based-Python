@@ -33,6 +33,8 @@
           <option value="decimal.Decimal" />
           <option value="fractions.Fraction" />
           <option value="_collections_abc.dict_values" />
+          <option value="_typeshed.SupportsDunderGT" />
+          <option value="_typeshed.SupportsDunderLT" />
         </list>
       </option>
     </inspection_tool>

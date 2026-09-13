@@ -1,16 +1,26 @@
-
 def filter_rows(data, predicate):
     result = list(filter(predicate, data))
     return result
 
 
 def select_columns(data, columns):
-    result = list(filter(columns, data))
+    result = [{col: row[col] for col in columns} for row in data]
     return result
 
 
 def column_average(data, col):
-    return sum(row[col] for row in data) / len(data)
+    if not data:
+        print("Error: dataset is empty.")
+        return None
+
+    try:
+        return sum(row[col] for row in data) / len(data)
+    except KeyError:
+        print(f"Error: column '{col}' does not exist.")
+        return None
+    except TypeError:
+        print(f"Error: column '{col}' is not numeric.")
+        return None
 
 
 def print_table(rows):
@@ -18,6 +28,7 @@ def print_table(rows):
     print("-" * 52)
     for x in rows:
         print(f"{x['name']:<10} | {x['department']:<15} | {x['age']:<6} | {x['salary']:<10}")
+
 
 def main():
     print_table(dataset)
@@ -29,7 +40,11 @@ def main():
         print("3. Column average")
         print("4. Exit")
 
-        choice = int(input("Your Choice: "))
+        try:
+            choice = int(input("Your Choice: "))
+        except ValueError:
+            print("Invalid choice. Please enter a number.")
+            continue
 
         if choice == 4:
             return
@@ -38,12 +53,18 @@ def main():
             result = filter_rows(dataset, lambda row: row["department"] == dept)
             print_table(result)
         elif choice == 2:
-            min_sal = int(input("Minimum salary: "))
+            try:
+                min_sal = int(input("Minimum salary: "))
+            except ValueError:
+                print("Invalid salary. Please enter a number.")
+                continue
             result = filter_rows(dataset, lambda row: row["salary"] >= min_sal)
             print_table(result)
         elif choice == 3:
             col = input("Column (age/salary): ")
-            print(f"Average {col}: {column_average(dataset, col)}")
+            avg = column_average(dataset, col)
+            if avg is not None:
+                print(f"Average {col}: {avg}")
         else:
             print("Invalid choice.")
 
