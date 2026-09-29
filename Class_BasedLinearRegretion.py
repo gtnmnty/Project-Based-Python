@@ -54,7 +54,7 @@ def main():
     x_raw = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     y_raw = [2.5 * xi + 1 + random.uniform(-0.5, 0.5) for xi in x_raw]
 
-    # Converts the
+    # Converts the x raw into a list
     x = [[xi] for xi in x_raw]
     y = y_raw
 
