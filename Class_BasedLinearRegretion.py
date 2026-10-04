@@ -1,6 +1,5 @@
 import random
 
-
 class LinearRegression:
 
     def __init__(self, test="default", slope=None, intercept=None):
@@ -43,7 +42,6 @@ class LinearRegression:
 
 def mean(values):
     return sum(values) / len(values)
-
 
 
 def main():

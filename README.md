@@ -21,6 +21,7 @@ Project-Based-Python/
 ├── level-3-numpy-pandas/
 ├── level-4-classical-ml/
 ├── level-5-deep-learning-nlp/
+├── skill-assessments/
 └── README.md
 
 *Status: Finished.*
