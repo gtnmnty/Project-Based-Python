@@ -1,4 +1,4 @@
-# Fundamentals
+# OOP and Core Python
 
 This branch is data-flavored Python basics. 
 
